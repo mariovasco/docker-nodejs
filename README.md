@@ -1,67 +1,72 @@
-# Node.js Hello World
+<figure>
+<img src="http://ww1.prweb.com/prfiles/2015/07/21/12907174/gI_146921_dchq-logo.png" alt="" />
+</figure>
 
-Node.js Hello World on CentOS using [docker][].
+To run & manage this simple Docker Node.js "Hello World" application on 18 different clouds and virtualization platforms (including vSphere, OpenStack, AWS, Rackspace, Microsoft Azure, Google Compute Engine, DigitalOcean, IBM SoftLayer, etc.), make sure that you either:
+-   **Sign Up for FREE on DCHQ.io** -- <http://dchq.io> (no credit card required), or
+-   **Download DCHQ On-Premise Standard Edition for FREE** -- <http://dchq.co/dchq-on-premise-download.html>
 
-## Prerequisites
-
-- [Node.js & npm][node-js-download]
-
-## Getting Started
-
--   Start Ubuntu virtual machine using Vagrant (required to run docker):
-
-        vagrant up
-
--   SSH into virtual machine:
-
-        vagrant ssh
-
--   Install dependencies:
-
-        cd /vagrant
-        make install
-
--   Build docker image:
-
-        make build
-        # docker build -t gasi/centos-node-hello .
+[![Customize and Run](https://dl.dropboxusercontent.com/u/4090128/dchq-customize-and-run.png)](https://www.dchq.io/landing/products.html#/library?org=DCHQ)
 
 
--   Run app:
-
-        make run-container
-        # docker run -p 49160:8080 -d gasi/centos-node-hello
-
--   Install `curl`:
-
-        sudo apt-get install curl
-
--   Get mapped port (last column) using, e.g. 49160:
-
-        docker ps
-
-        > # Example
-        > ID                  IMAGE                           COMMAND              CREATED             STATUS              PORTS
-        > ecce33b30ebf        gasi/centos-node-hello:latest   node /src/index.js   10 seconds ago      Up 9 seconds        49160->8080
-
--   Test app using the port in previous step, e.g. 49160:
-
-        curl localhost:<port>
-
-        # Example
-        # curl localhost:49163
-
-    It should print `Hello World` to the console.
-    
-    If you use Boot2Docker on OS X, the port is actually mapped to the Docker host VM, and you should use the following command:
-    
-        curl $(boot2docker ip):<port>
-
-## Acknowledgements
-
-Many thanks to @shykes and @unclejack for their support on IRC as well as the
-@dotCloud team for docker.
+Customize & Run all the published Docker Node.js application templates (including the LAMP, LAPP, and LAOP Stacks) and many other templates (including multi-tier Java application stacks, Mongo Replica Set Cluster, Drupal, Wordpress, MEAN.JS, etc.)
 
 
-[node-js-download]: http://nodejs.org/download/
-[docker]: http://docker.io
+### Nginx and Node.js
+
+[![Customize and Run](https://dl.dropboxusercontent.com/u/4090128/dchq-customize-and-run.png)](https://www.dchq.io/landing/products.html#/library?org=DCHQ&bl=2c91802d5244241d015247fbea0b5579)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+LB:
+  image: nginx:latest
+  publish_all: true
+  host: host1
+  mem_min: 50m
+  plugins:
+    - !plugin
+      id: 0H1Nk
+      restart: true
+      lifecycle: on_create, post_scale_out:AppServer, post_scale_in:AppServer
+      arguments:
+        # Use container_private_ip if you're using Docker networking
+        - servers=server {{node | container_private_ip}}:8080;
+        # Use container_hostname if you're using Weave networking
+        #- servers=server {{AppServer | container_hostname}}:8080;
+node:
+  image: dchq/nodejs:latest
+  mem_min: 100m
+  host: host1
+  cpu_shares: 1
+  publish_all: false
+  cluster_size: 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+### Apache HTTP Server and Node.js
+
+[![Customize and Run](https://dl.dropboxusercontent.com/u/4090128/dchq-customize-and-run.png)](https://www.dchq.io/landing/products.html#/library?org=DCHQ&bl=2c91802d5244241d0152480e5c605990)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+HTTP-LB:
+  image: httpd:latest
+  publish_all: true
+  mem_min: 50m
+  host: host1
+  plugins:
+    - !plugin
+      id: uazUi
+      restart: true
+      lifecycle: on_create, post_scale_out:AppServer, post_scale_in:AppServer
+      arguments:
+        # Use container_private_ip if you're using Docker networking
+        - BalancerMembers=BalancerMember http://{{node | container_private_ip}}:8080
+        # Use container_hostname if you're using Weave networking
+        #- BalancerMembers=BalancerMember http://{{node | container_hostname}}:8080
+node:
+  image: dchq/nodejs:latest
+  mem_min: 100m
+  host: host1
+  cpu_shares: 1
+  publish_all: false
+  cluster_size: 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
