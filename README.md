@@ -11,6 +11,20 @@ To run & manage this simple Docker Node.js "Hello World" application on 18 diffe
 
 Customize & Run all the published Docker Node.js application templates and many other templates (including multi-tier Java application stacks, Python, Ruby, PHP, Mongo Replica Set Cluster, Drupal, Wordpress, MEAN.JS, etc.)
 
+### Node.js Hello World
+
+[![Customize and Run](https://dl.dropboxusercontent.com/u/4090128/dchq-customize-and-run.png)](https://www.dchq.io/landing/products.html#/library?org=DCHQ&bl=2c91802d5244241d0152527faac31e62)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+node:
+  image: dchq/nodejs:latest
+  mem_min: 50m
+  host: host1
+  cpu_shares: 1
+  publish_all: true
+  cluster_size: 1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 ### Nginx and Node.js
 
