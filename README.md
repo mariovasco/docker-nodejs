@@ -9,7 +9,7 @@ To run & manage this simple Docker Node.js "Hello World" application on 18 diffe
 [![Customize and Run](https://dl.dropboxusercontent.com/u/4090128/dchq-customize-and-run.png)](https://www.dchq.io/landing/products.html#/library?org=DCHQ)
 
 
-Customize & Run all the published Docker Node.js application templates (including the LAMP, LAPP, and LAOP Stacks) and many other templates (including multi-tier Java application stacks, Mongo Replica Set Cluster, Drupal, Wordpress, MEAN.JS, etc.)
+Customize & Run all the published Docker Node.js application templates and many other templates (including multi-tier Java application stacks, Python, Ruby, PHP, Mongo Replica Set Cluster, Drupal, Wordpress, MEAN.JS, etc.)
 
 
 ### Nginx and Node.js
